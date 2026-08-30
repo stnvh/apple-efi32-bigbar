@@ -1,0 +1,18 @@
+# Cap the Tesla P40 so it cannot pull its full 250W.
+# Needed when the card is fed from the Mac Pro logic board's 6-pin aux
+# connectors (~75W each) rather than a PSU-fed supply.
+#
+# Requires nvidia-persistenced to be running, otherwise the driver drops
+# GPU state whenever the last client exits and the limit reverts to 250W.
+[Unit]
+Description=Apply Tesla P40 power limit
+After=nvidia-persistenced.service
+Requires=nvidia-persistenced.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/nvidia-smi -pl 150
+
+[Install]
+WantedBy=multi-user.target

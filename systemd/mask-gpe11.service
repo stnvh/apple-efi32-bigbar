@@ -1,0 +1,20 @@
+# Mask ACPI GPE 11 on MacPro1,1.
+#
+# Left unmasked it fires continuously, stalling disk I/O badly enough that
+# loading a large model thrashes and can OOM. Masking resets on every boot,
+# so it needs applying each time.
+#
+# Install to /etc/systemd/system/mask-gpe11.service
+[Unit]
+Description=Mask ACPI gpe11 IRQ storm (MacPro1,1)
+DefaultDependencies=no
+After=sysinit.target
+Before=basic.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/sh -c 'echo mask > /sys/firmware/acpi/interrupts/gpe11'
+
+[Install]
+WantedBy=basic.target

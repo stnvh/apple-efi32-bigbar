@@ -1,0 +1,15 @@
+# NEVER commit ROM images: they contain the machine's serial number,
+# hardware UUID and MAC addresses. Each machine must use its own dump.
+*.bin
+*.scap
+*.ko
+*.o
+*.mod*
+.venv/
+
+# keep documentation screenshots
+!images/
+!images/*.png
+
+# misc
+.DS_Store
